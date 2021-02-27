@@ -1,0 +1,42 @@
+{
+  "name": "unified-errors",
+  "version": "0.0.1",
+  "description": "A library to handle declarative error handling in Node Js",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest --passWithNoTests",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "keywords": [
+    "Node.js"
+  ],
+  "author": "Kanstantsin Hontarau <kostia.gontarev@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "safer-eval": "^1"
+  },
+  "devDependencies": {
+    "@types/jest": "^24",
+    "eslint": "^5",
+    "eslint-config-prettier": "^6",
+    "eslint-plugin-import": "^2",
+    "eslint-plugin-prettier": "^3",
+    "husky": "^3",
+    "jest": "^24",
+    "lint-staged": "^9",
+    "prettier": "^2"
+  },
+  "lint-staged": {
+    "*.js": [
+      "yarn lint:fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn test"
+    }
+  }
+}
