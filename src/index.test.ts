@@ -1,7 +1,6 @@
 const mockErrorCore = { errors: {}, errorDeclarations: {} };
-jest.mock("./index.js", () => mockErrorCore);
-
-const errorDeclarationHelpers = require("./error-declaration-helpers");
+import * as errorDeclarationHelpers from "./core/error-declaration-helpers";
+jest.mock("./core/index", () => mockErrorCore);
 
 describe("Error Declaration Helpers", () => {
   beforeEach(() => {
@@ -13,7 +12,7 @@ describe("Error Declaration Helpers", () => {
       mockErrorCore.errorDeclarations = {
         MyError: {
           code: "error.myerror",
-          specificErrors: {
+          children: {
             Unexpected: {
               code: "unexpected",
               isDefault: true,
@@ -25,18 +24,13 @@ describe("Error Declaration Helpers", () => {
         Unexpected: Error,
       };
 
-      const {
-        DefaultError,
-        errorDeclaration,
-        errorName,
-      } = errorDeclarationHelpers.getDefaultError();
+      const result = errorDeclarationHelpers.getDefaultError();
 
-      expect(DefaultError).toBe(Error);
-      expect(errorDeclaration).toEqual({
+      expect(result?.DefaultError).toBe(Error);
+      expect(result?.errorDeclaration).toEqual({
         code: "unexpected",
         isDefault: true,
       });
-      expect(errorName).toBe("Unexpected");
     });
 
     it("should return null if no default error", () => {
@@ -79,10 +73,10 @@ describe("Error Declaration Helpers", () => {
       mockErrorCore.errorDeclarations = {
         SomeError: {
           code: "someError",
-          specificErrors: {
+          children: {
             AnotherError: {
               code: "anotherError",
-              specificErrors: {
+              children: {
                 Unexpected: {
                   code: "unexpected",
                 },
@@ -106,7 +100,7 @@ describe("Error Declaration Helpers", () => {
       mockErrorCore.errorDeclarations = {
         SomeError: {
           code: "someError",
-          specificErrors: {
+          children: {
             AnotherError: {
               code: "anotherError",
             },

@@ -1,12 +1,11 @@
-const createErrorClasses = require("./create-error-classes");
-const UnifiedError = require("./unified-error");
+import createErrorClasses, { clear } from "./create-error-classes";
+import { BaseError } from "./base-error";
 
 describe("Declarative error generation", () => {
-  let errorDefinition = null;
-
+  beforeEach(() => clear());
   describe("Error definition", () => {
     it("should generate 1 level error hierarchy", () => {
-      errorDefinition = {
+      const errorDefinition = {
         MyFirstError: { code: "errorCode1" },
         MySecondError: { code: "errorCode2" },
       };
@@ -14,20 +13,20 @@ describe("Declarative error generation", () => {
       const errors = createErrorClasses(errorDefinition);
 
       expect(errors).toHaveProperty("MyFirstError");
-      expect(errors.MyFirstError).toBeInstanceOf(Function);
+      expect(errors?.MyFirstError).toBeInstanceOf(Function);
 
       expect(errors).toHaveProperty("MySecondError");
-      expect(errors.MySecondError).toBeInstanceOf(Function);
+      expect(errors?.MySecondError).toBeInstanceOf(Function);
     });
 
     it("should generate n-level error hierarchy", () => {
-      errorDefinition = {
+      const errorDefinition = {
         FirstLevelError: {
           code: "errorCode1",
-          specificErrors: {
+          children: {
             SecondLevelError: {
               code: "errorCode2",
-              specificErrors: {
+              children: {
                 ThirdLevelError: { code: "errorCode3" },
               },
             },
@@ -36,36 +35,34 @@ describe("Declarative error generation", () => {
       };
 
       const errors = createErrorClasses(errorDefinition);
-
+      console.log(errors);
       expect(errors).toHaveProperty("FirstLevelError");
-      expect(errors.FirstLevelError).toBeInstanceOf(Function);
+      expect(errors?.FirstLevelError).toBeInstanceOf(Function);
       expect(errors).toHaveProperty("SecondLevelError");
-      expect(errors.SecondLevelError).toBeInstanceOf(Function);
+      expect(errors?.SecondLevelError).toBeInstanceOf(Function);
       expect(errors).toHaveProperty("ThirdLevelError");
-      expect(errors.ThirdLevelError).toBeInstanceOf(Function);
+      expect(errors?.ThirdLevelError).toBeInstanceOf(Function);
 
       const firstError = new errors.FirstLevelError("message");
-      expect(firstError).toBeInstanceOf(UnifiedError);
+      expect(firstError).toBeInstanceOf(BaseError);
       expect(firstError).toHaveProperty("message", "message");
       expect(firstError).toHaveProperty("errorCode", "errorCode1");
 
       const secondError = new errors.SecondLevelError("message");
-      expect(secondError).toBeInstanceOf(errors.FirstLevelError);
+      expect(secondError).toBeInstanceOf(errors?.FirstLevelError);
       expect(secondError).toHaveProperty("message", "message");
       expect(secondError).toHaveProperty("errorCode", "errorCode2");
 
       const thirdError = new errors.ThirdLevelError("message");
-      expect(thirdError).toBeInstanceOf(errors.SecondLevelError);
+      expect(thirdError).toBeInstanceOf(errors?.SecondLevelError);
       expect(thirdError).toHaveProperty("message", "message");
       expect(thirdError).toHaveProperty("errorCode", "errorCode3");
     });
-
-    describe("Wrong error definition", () => {});
   });
 
   describe("Generated error usage", () => {
     it("should be allowed to throw generated error", () => {
-      errorDefinition = {
+      const errorDefinition = {
         MyFirstError: { code: "errorCode1" },
       };
 
@@ -76,7 +73,7 @@ describe("Declarative error generation", () => {
           payload: null,
         });
       } catch (error) {
-        expect(error).toBeInstanceOf(errors.MyFirstError);
+        expect(error).toBeInstanceOf(errors?.MyFirstError);
         expect(error).toHaveProperty("message", "message");
         expect(error).toHaveProperty("errorCode", "errorCode1");
         expect(error).toHaveProperty("meta", {

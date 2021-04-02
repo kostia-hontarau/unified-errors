@@ -1,7 +1,15 @@
-const UnifiedError = require("./unified-error");
+import { BaseError } from "./base-error";
 
-module.exports = ({ className, parentClassName, errorCode }) => {
-  if (parentClassName !== UnifiedError.name) {
+export default ({
+  className,
+  parentClassName,
+  errorCode,
+}: {
+  className: string;
+  parentClassName: string;
+  errorCode: string;
+}): string => {
+  if (parentClassName !== BaseError.name) {
     return `(class ${className} extends ${parentClassName} {
       constructor(message, meta) {
         super(message, {

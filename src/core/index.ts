@@ -1,10 +1,10 @@
-const createErrorClasses = require("./create-error-classes");
+import createErrorClasses from "./create-error-classes";
 
 const pathToErrorsDeclarations = process.cwd().concat("/.errors.js");
-// eslint-disable-next-line import/no-dynamic-require
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const errorDeclarations = require(pathToErrorsDeclarations);
 
-module.exports = {
+export default {
   errors: createErrorClasses(errorDeclarations),
   errorDeclarations,
 };

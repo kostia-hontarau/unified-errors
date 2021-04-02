@@ -1,13 +1,19 @@
-const { withDefaultError } = require("./withDefaultError");
-const UnifiedError = require("../core/unified-error");
+import { BaseError } from "../core/base-error";
+import { withDefaultError } from "./withDefaultError";
+
+class SomeError extends BaseError {
+  constructor(message: string, meta?: Record<string, unknown>) {
+    super("some", message, meta);
+  }
+}
 
 describe("With Default Error decorator", () => {
   describe("Function decorator", () => {
     it("should run original function and return its result (sync)", () => {
       const expectedResult = 2;
       const result = withDefaultError(
-        (argument) => argument,
-        UnifiedError
+        (argument: any) => argument,
+        SomeError
       )(expectedResult);
 
       expect(result).toBe(expectedResult);
@@ -16,8 +22,8 @@ describe("With Default Error decorator", () => {
     it("should run original function and return its result (async)", async () => {
       const expectedResult = 2;
       const result = await withDefaultError(
-        async (argument) => argument,
-        UnifiedError
+        async (argument: any) => argument,
+        SomeError
       )(expectedResult);
 
       expect(result).toBe(expectedResult);
@@ -28,9 +34,9 @@ describe("With Default Error decorator", () => {
       try {
         withDefaultError(() => {
           throw new Error(message);
-        }, UnifiedError);
+        }, SomeError);
       } catch (error) {
-        expect(error).toBeInstanceOf(UnifiedError);
+        expect(error).toBeInstanceOf(BaseError);
         expect(error).toHaveProperty("message", message);
       }
     });
@@ -40,9 +46,9 @@ describe("With Default Error decorator", () => {
       try {
         await withDefaultError(async () => {
           throw new Error(message);
-        }, UnifiedError);
+        }, SomeError);
       } catch (error) {
-        expect(error).toBeInstanceOf(UnifiedError);
+        expect(error).toBeInstanceOf(BaseError);
         expect(error).toHaveProperty("message", message);
       }
     });
