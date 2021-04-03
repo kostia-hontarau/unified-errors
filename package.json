@@ -2,12 +2,14 @@
   "name": "unified-errors",
   "version": "0.0.1",
   "description": "A library to handle declarative error handling in Node Js",
-  "main": "src/index.js",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
     "test": "jest --passWithNoTests",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "npm run build && npm run test"
   },
   "keywords": [
     "Node.js"
