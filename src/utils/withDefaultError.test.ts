@@ -1,4 +1,4 @@
-import { DatabaseError } from "../../example/errors";
+import { DatabaseError } from "../../errors/errors";
 import { withDefaultError } from "./withDefaultError";
 
 describe("With Default Error adapter", () => {

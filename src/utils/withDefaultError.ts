@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/only-throw-error */
 import { UnhandledError, UnifiedError, UnifiedErrorClass } from "../core/types";
 
 const handleError = (
