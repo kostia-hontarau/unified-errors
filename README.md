@@ -41,11 +41,11 @@ npx unified-errors generate
 ### 3. Use Generated Errors
 
 ```typescript
-import { errors } from './errors';
+import { InvalidEmail } from './errors';
 
 // Use the generated error classes
-throw new errors.InvalidEmail('Invalid email format', {
-  email: 'test@example.com'
+throw new InvalidEmail('Invalid email format', {
+  userId: session.userId
 });
 ```
 
@@ -60,10 +60,6 @@ npx unified-errors generate --config .errors.js --output ./src/errors
 ```
 
 ## API
-
-### Main Exports
-
-- `generateErrors(options)`: Generate error classes from declarations
 
 ### Generated Files
 
