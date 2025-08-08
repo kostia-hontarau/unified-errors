@@ -1,4 +1,4 @@
-import { BaseError } from "../../core/base-error";
+import { UnifiedError } from "../..";
 import {
   ErrorConverter,
   ErrorDeclaration,
@@ -17,9 +17,9 @@ export type IDefaultHttpConverterResult = {
   };
 };
 
- 
 export class DefaultHttpResponseConverter
-  implements ErrorConverter<IDefaultHttpConverterResult> {
+  implements ErrorConverter<IDefaultHttpConverterResult>
+{
   defaultHttpErrorMessage: string;
 
   constructor(defaultHttpErrorMessage: string) {
@@ -27,14 +27,15 @@ export class DefaultHttpResponseConverter
   }
 
   convert(
-    error: BaseError,
+    error: UnifiedError,
     declaration: ErrorDeclaration
   ): IDefaultHttpConverterResult {
     const converterConfig = declaration.converters?.find(
       (converter) => converter.type === "http"
     );
     if (converterConfig) {
-      const httpConverterConfig = converterConfig as IDefaultHttpConverterConfig;
+      const httpConverterConfig =
+        converterConfig as IDefaultHttpConverterConfig;
 
       return {
         status: httpConverterConfig.payload.status || 500,

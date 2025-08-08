@@ -6,7 +6,6 @@ import { ErrorsDeclaration } from "../core/types";
 interface GeneratorOptions {
   configPath: string;
   outputDir: string;
-  template: string;
 }
 
 export function generateErrors(options: GeneratorOptions) {
@@ -41,10 +40,7 @@ function generateErrorClasses(
   writeFileSync(join(outputDir, "errors.ts"), content);
 }
 
-function generateTypes(
-  declarations: ErrorsDeclaration,
-  outputDir: string
-) {
+function generateTypes(declarations: ErrorsDeclaration, outputDir: string) {
   const content = compileTemplateWithData("error-types", {
     declarations,
   });
@@ -52,19 +48,13 @@ function generateTypes(
   writeFileSync(join(outputDir, "error-types.ts"), content);
 }
 
-function generateIndex(
-  declarations: ErrorsDeclaration,
-  outputDir: string
-) {
+function generateIndex(declarations: ErrorsDeclaration, outputDir: string) {
   const content = compileTemplateWithData("index", { declarations });
 
   writeFileSync(join(outputDir, "index.ts"), content);
 }
 
-function generateHelpers(
-  declarations: ErrorsDeclaration,
-  outputDir: string
-) {
+function generateHelpers(declarations: ErrorsDeclaration, outputDir: string) {
   const content = compileTemplateWithData("error-helpers", {
     declarations,
   });

@@ -14,7 +14,7 @@ Handlebars.registerHelper("eq", function (a, b) {
   return a === b;
 });
 
-// Helper function to flatten error declarations
+// Helper function to flatten error declarations recursively
 function flattenErrorDeclarations(
   declarations: ErrorsDeclaration,
   parentName?: string
@@ -31,51 +31,46 @@ function flattenErrorDeclarations(
     converters?: IErrorConverterConfig[];
   }> = [];
 
-  Object.entries(declarations).forEach(
-    ([name, declaration]: [string, ErrorDeclaration]) => {
-      // Add parent error
-      flattened.push({
-        name,
-        parentName: parentName || "BaseError",
-        code: declaration.code,
-        converters: declaration.converters,
-      });
+  function processDeclarations(decls: ErrorsDeclaration, parent?: string) {
+    Object.entries(decls).forEach(
+      ([name, declaration]: [string, ErrorDeclaration]) => {
+        // Add current error
+        flattened.push({
+          name,
+          parentName: parent || "BaseError",
+          code: declaration.code,
+          converters: declaration.converters,
+        });
 
-      // Add child errors
-      if (declaration.children) {
-        Object.entries(declaration.children).forEach(
-          ([childName, childDeclaration]: [string, ErrorDeclaration]) => {
-            flattened.push({
-              name: childName,
-              parentName: name,
-              code: childDeclaration.code,
-              converters: childDeclaration.converters,
-            });
-          }
-        );
+        // Recursively process children
+        if (declaration.children) {
+          processDeclarations(declaration.children, name);
+        }
       }
-    }
-  );
+    );
+  }
 
+  processDeclarations(declarations, parentName);
   return flattened;
 }
 
-// Helper function to generate error names for export
+// Helper function to generate error names for export recursively
 function generateErrorNames(declarations: ErrorsDeclaration): string[] {
   const names: string[] = [];
 
-  Object.entries(declarations).forEach(
-    ([name, declaration]: [string, ErrorDeclaration]) => {
-      names.push(name);
+  function collectNames(decls: ErrorsDeclaration) {
+    Object.entries(decls).forEach(
+      ([name, declaration]: [string, ErrorDeclaration]) => {
+        names.push(name);
 
-      if (declaration.children) {
-        Object.keys(declaration.children).forEach((childName) => {
-          names.push(childName);
-        });
+        if (declaration.children) {
+          collectNames(declaration.children);
+        }
       }
-    }
-  );
+    );
+  }
 
+  collectNames(declarations);
   return names;
 }
 
@@ -83,8 +78,26 @@ const templates = {
   "error-classes": `
 // Auto-generated file - DO NOT EDIT
 // Generated from .errors.js on {{generatedAt}}
+import { UnifiedError } from "./error-types";
 
-import { BaseError } from '../core/base-error';
+export class BaseError extends Error implements UnifiedError {
+  errorCode: string;
+  meta?: Record<string, unknown>;
+
+  constructor(
+    errorCode: string,
+    message: string,
+    meta?: Record<string, unknown>
+  ) {
+    super(message);
+
+    this.errorCode = errorCode;
+    this.name = this.constructor.name;
+
+    delete meta?._errorCodeOverride;
+    this.meta = meta;
+  }
+}
 
 {{#each flattenedErrors}}
 export class {{name}} extends {{parentName}} {
@@ -94,7 +107,7 @@ export class {{name}} extends {{parentName}} {
     {{else}}
     super(message, {
       ...meta,
-      _errorCodeOverride: (meta && meta._errorCodeOverride) || '{{code}}'
+      _errorCodeOverride: [meta?._errorCodeOverride, '{{code}}'].join('.')
     });
     {{/if}}
   }
@@ -120,19 +133,15 @@ export const errorDeclarations = {{{json declarations}}};
   "error-types": `
 // Auto-generated types - DO NOT EDIT
 
-import * as GeneratedErrors from './errors';
 
-{{#each flattenedErrors}}
-export type {{name}}Error = InstanceType<typeof GeneratedErrors.{{name}}>;
-{{/each}}
-
-export type GeneratedErrorsType = {
-{{#each flattenedErrors}}
-  {{name}}: typeof GeneratedErrors.{{name}};
-{{/each}}
+export interface UnifiedError {
+  message: string;
+  errorCode: string;
+  meta?: Record<string, unknown>;
 };
-
-export type ErrorNames = keyof GeneratedErrorsType;
+export type UnifiedErrorClass = {
+  new (message: string, meta?: Record<string, unknown>): UnifiedError;
+};
 `,
 
   index: `
@@ -146,16 +155,11 @@ export * from './error-helpers';
   "error-helpers": `
 // Auto-generated helpers - DO NOT EDIT
 
+import { UnifiedErrorClass } from './error-types';
 import { errors } from './errors';
 
 export function getErrorByName(name: string) {
-  return (errors as any)[name];
-}
-
-export function getDefaultError() {
-  // Find error with isDefault: true
-  // Implementation based on declarations
-  return null;
+  return (errors as Record<string, UnifiedErrorClass>)[name];
 }
 
 export function getAllErrorNames(): string[] {

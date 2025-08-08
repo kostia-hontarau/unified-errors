@@ -1,14 +1,18 @@
-import { BaseError } from "./base-error";
-
-export type ErrorsContext = Record<string, UnifiedError>;
+export type ErrorsContext = Record<string, UnifiedErrorClass>;
 export type UnhandledError = Error | Record<string, unknown> | string;
 export interface ErrorFilter {
   errorName?: string;
   isDefault?: boolean;
 }
 
-export type UnifiedError = {
-  new (message: string, meta?: Record<string, unknown>): BaseError;
+export interface UnifiedError {
+  message: string;
+  errorCode: string;
+  meta?: Record<string, unknown>;
+};
+
+export type UnifiedErrorClass = {
+  new (message: string, meta?: Record<string, unknown>): UnifiedError;
 };
 
 export interface IErrorConverterConfig<T = Record<string, unknown>> {
@@ -26,5 +30,5 @@ export interface ErrorsDeclaration {
 }
 
 export interface ErrorConverter<T = Record<string, unknown> | string> {
-  convert(error: BaseError, declaration: ErrorDeclaration): T;
+  convert(error: UnifiedError, declaration: ErrorDeclaration): T;
 }

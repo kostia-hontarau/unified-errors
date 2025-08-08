@@ -1,11 +1,5 @@
-import { BaseError } from "../core/base-error";
+import { DatabaseError } from "../../example/errors";
 import { withDefaultError } from "./withDefaultError";
-
-class SomeError extends BaseError {
-  constructor(message: string, meta?: Record<string, unknown>) {
-    super("some", message, meta);
-  }
-}
 
 describe("With Default Error adapter", () => {
   describe("Function adapter", () => {
@@ -13,7 +7,7 @@ describe("With Default Error adapter", () => {
       const expectedResult = 2;
       const decoratedFunction = withDefaultError(
         (argument: unknown) => argument,
-        SomeError
+        DatabaseError
       );
       const [result] = await decoratedFunction(expectedResult);
 
@@ -24,7 +18,7 @@ describe("With Default Error adapter", () => {
       const expectedResult = 2;
       const decoratedFunction = withDefaultError(
         async (argument: unknown) => Promise.resolve(argument),
-        SomeError
+        DatabaseError
       );
       const [result] = await decoratedFunction(expectedResult);
 
@@ -36,10 +30,10 @@ describe("With Default Error adapter", () => {
       try {
         const decoratedFunction = withDefaultError(() => {
           throw new Error(message);
-        }, SomeError);
+        }, DatabaseError);
         await decoratedFunction();
       } catch (error) {
-        expect(error).toBeInstanceOf(SomeError);
+        expect(error).toBeInstanceOf(DatabaseError);
         expect(error).toHaveProperty("message", message);
       }
     });
@@ -49,10 +43,10 @@ describe("With Default Error adapter", () => {
       try {
         const decoratedFunction = withDefaultError(() => {
           return Promise.reject(new Error(message));
-        }, SomeError);
+        }, DatabaseError);
         await decoratedFunction();
       } catch (error) {
-        expect(error).toBeInstanceOf(SomeError);
+        expect(error).toBeInstanceOf(DatabaseError);
         expect(error).toHaveProperty("message", message);
       }
     });

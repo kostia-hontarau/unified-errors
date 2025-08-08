@@ -21,15 +21,13 @@ program
   .option(
     "-o, --output <path>",
     "Output directory for generated files",
-    "src/generated"
+    "./example"
   )
-  .option("-t, --template <name>", "Template to use (typescript)", "typescript")
   .action((options: Record<string, string>) => {
     try {
       generateErrors({
         configPath: options.config,
         outputDir: options.output,
-        template: options.template,
       });
       console.log("✅ Error classes generated successfully!");
     } catch (error) {

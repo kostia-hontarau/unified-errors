@@ -1,8 +1,8 @@
-import { UnhandledError, UnifiedError } from "../core/types";
+import { UnhandledError, UnifiedError, UnifiedErrorClass } from "../core/types";
 
 const handleError = (
   error: UnhandledError & { message?: string },
-  DefaultErrorClass: UnifiedError,
+  DefaultErrorClass: UnifiedErrorClass,
   message?: string
 ): never => {
   if (!(error instanceof DefaultErrorClass)) {
@@ -20,7 +20,7 @@ type FunctionToWrap<TArgs extends Array<unknown>, TOutput> = (
 
 export const withDefaultError = <TArgs extends Array<unknown>, TOutput>(
   func: FunctionToWrap<TArgs, TOutput>,
-  DefaultErrorClass: UnifiedError,
+  DefaultErrorClass: UnifiedErrorClass,
   message?: string
 ) => {
   return async (...args: TArgs) => {

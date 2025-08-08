@@ -40,7 +40,6 @@ describe("TypeScript Generator", () => {
     generateErrors({
       configPath: ".errors.js",
       outputDir: "test-output",
-      template: "typescript",
     });
 
     // eslint-disable-next-line @typescript-eslint/no-require-imports

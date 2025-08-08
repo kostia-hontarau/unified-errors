@@ -1,5 +1,10 @@
 const mockErrorCore = { errors: {}, errorDeclarations: {} };
 import * as errorDeclarationHelpers from "./core/error-declaration-helpers";
+import {
+  ApplicationError,
+  ValidationError,
+  InvalidEmail,
+} from "../example/errors";
 
 describe("Error Declaration Helpers", () => {
   beforeEach(() => {
@@ -82,15 +87,15 @@ describe("Error Declaration Helpers", () => {
     });
   });
 
-  // describe("error codes", () => {
-  //   it("should allow hierarchy of error codes", () => {
-  //     const error = new InvalidEmail("Invalid email");
-  //     const validationError = new ValidationError("Invalid email");
-  //     const applicationError = new ApplicationError("Invalid email");
+  describe("error codes", () => {
+    it("should allow hierarchy of error codes", () => {
+      const error = new InvalidEmail("Invalid email");
+      const validationError = new ValidationError("Invalid email");
+      const applicationError = new ApplicationError("Invalid email");
 
-  //     expect(error.errorCode).toBe("application.validation.invalid_email");
-  //     expect(validationError.errorCode).toBe("application.validation");
-  //     expect(applicationError.errorCode).toBe("application");
-  //   });
-  // });
+      expect(error.errorCode).toBe("application.validation.invalid_email");
+      expect(validationError.errorCode).toBe("application.validation");
+      expect(applicationError.errorCode).toBe("application");
+    });
+  });
 });
