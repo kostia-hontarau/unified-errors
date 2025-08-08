@@ -1,8 +1,9 @@
 
 // Auto-generated file - DO NOT EDIT
-// Generated from .errors.js on 2025-08-08T14:36:13.261Z
+// Generated from .errors.js on 2025-08-08T14:48:55.317Z
+import { UnifiedError } from "./error-types";
 
-export class BaseError extends Error {
+export class BaseError extends Error implements UnifiedError {
   errorCode: string;
   meta?: Record<string, unknown>;
 
@@ -23,7 +24,7 @@ export class BaseError extends Error {
 
 export class ApplicationError extends BaseError {
   constructor(message: string, meta?: Record<string, unknown>) {
-    super('application', message, meta);
+    super(['application', meta?._errorCodeOverride].filter(Boolean).join('.'), message, meta);
   }
   
 }
@@ -32,7 +33,7 @@ export class ValidationError extends ApplicationError {
   constructor(message: string, meta?: Record<string, unknown>) {
     super(message, {
       ...meta,
-      _errorCodeOverride: [meta?._errorCodeOverride, 'validation'].join('.')
+      _errorCodeOverride: ['validation', meta?._errorCodeOverride].filter(Boolean).join('.')
     });
   }
   
@@ -42,7 +43,7 @@ export class InvalidEmail extends ValidationError {
   constructor(message: string, meta?: Record<string, unknown>) {
     super(message, {
       ...meta,
-      _errorCodeOverride: [meta?._errorCodeOverride, 'invalid_email'].join('.')
+      _errorCodeOverride: ['invalid_email', meta?._errorCodeOverride].filter(Boolean).join('.')
     });
   }
   
@@ -61,7 +62,7 @@ export class InvalidPassword extends ValidationError {
   constructor(message: string, meta?: Record<string, unknown>) {
     super(message, {
       ...meta,
-      _errorCodeOverride: [meta?._errorCodeOverride, 'invalid_password'].join('.')
+      _errorCodeOverride: ['invalid_password', meta?._errorCodeOverride].filter(Boolean).join('.')
     });
   }
   
@@ -80,7 +81,7 @@ export class InvalidInput extends ValidationError {
   constructor(message: string, meta?: Record<string, unknown>) {
     super(message, {
       ...meta,
-      _errorCodeOverride: [meta?._errorCodeOverride, 'invalid_input'].join('.')
+      _errorCodeOverride: ['invalid_input', meta?._errorCodeOverride].filter(Boolean).join('.')
     });
   }
   
@@ -99,7 +100,7 @@ export class AuthenticationError extends ApplicationError {
   constructor(message: string, meta?: Record<string, unknown>) {
     super(message, {
       ...meta,
-      _errorCodeOverride: [meta?._errorCodeOverride, 'authentication'].join('.')
+      _errorCodeOverride: ['authentication', meta?._errorCodeOverride].filter(Boolean).join('.')
     });
   }
   
@@ -109,7 +110,7 @@ export class InvalidCredentials extends AuthenticationError {
   constructor(message: string, meta?: Record<string, unknown>) {
     super(message, {
       ...meta,
-      _errorCodeOverride: [meta?._errorCodeOverride, 'invalid_credentials'].join('.')
+      _errorCodeOverride: ['invalid_credentials', meta?._errorCodeOverride].filter(Boolean).join('.')
     });
   }
   
@@ -128,7 +129,7 @@ export class TokenExpired extends AuthenticationError {
   constructor(message: string, meta?: Record<string, unknown>) {
     super(message, {
       ...meta,
-      _errorCodeOverride: [meta?._errorCodeOverride, 'token_expired'].join('.')
+      _errorCodeOverride: ['token_expired', meta?._errorCodeOverride].filter(Boolean).join('.')
     });
   }
   
@@ -147,7 +148,7 @@ export class AuthorizationError extends ApplicationError {
   constructor(message: string, meta?: Record<string, unknown>) {
     super(message, {
       ...meta,
-      _errorCodeOverride: [meta?._errorCodeOverride, 'authorization'].join('.')
+      _errorCodeOverride: ['authorization', meta?._errorCodeOverride].filter(Boolean).join('.')
     });
   }
   
@@ -157,7 +158,7 @@ export class InsufficientPermissions extends AuthorizationError {
   constructor(message: string, meta?: Record<string, unknown>) {
     super(message, {
       ...meta,
-      _errorCodeOverride: [meta?._errorCodeOverride, 'insufficient_permissions'].join('.')
+      _errorCodeOverride: ['insufficient_permissions', meta?._errorCodeOverride].filter(Boolean).join('.')
     });
   }
   
@@ -174,7 +175,7 @@ export class InsufficientPermissions extends AuthorizationError {
 
 export class DatabaseError extends BaseError {
   constructor(message: string, meta?: Record<string, unknown>) {
-    super('database', message, meta);
+    super(['database', meta?._errorCodeOverride].filter(Boolean).join('.'), message, meta);
   }
   
 }
@@ -183,7 +184,7 @@ export class ConnectionFailed extends DatabaseError {
   constructor(message: string, meta?: Record<string, unknown>) {
     super(message, {
       ...meta,
-      _errorCodeOverride: [meta?._errorCodeOverride, 'connection_failed'].join('.')
+      _errorCodeOverride: ['connection_failed', meta?._errorCodeOverride].filter(Boolean).join('.')
     });
   }
   
@@ -202,7 +203,7 @@ export class QueryFailed extends DatabaseError {
   constructor(message: string, meta?: Record<string, unknown>) {
     super(message, {
       ...meta,
-      _errorCodeOverride: [meta?._errorCodeOverride, 'query_failed'].join('.')
+      _errorCodeOverride: ['query_failed', meta?._errorCodeOverride].filter(Boolean).join('.')
     });
   }
   

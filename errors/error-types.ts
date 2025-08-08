@@ -2,7 +2,7 @@
 // Auto-generated types - DO NOT EDIT
 
 
-export type UnifiedError = {
+export interface UnifiedError {
   message: string;
   errorCode: string;
   meta?: Record<string, unknown>;

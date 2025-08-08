@@ -11,8 +11,8 @@
     "test": "jest --passWithNoTests",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "build": "tsc",
-    "generate": "node build/cli/index.js generate",
+    "build": "rm -rf build && tsc",
+    "generate": "node build/cli/index.js generate -- -o ./errors",
     "prepare": "husky"
   },
   "keywords": [
