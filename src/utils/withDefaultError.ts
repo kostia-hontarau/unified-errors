@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UnhandledError, UnifiedError } from "../core/types";
 
 const handleError = (
@@ -24,7 +23,6 @@ export const withDefaultError = <TArgs extends Array<any>, TOutput>(
   DefaultErrorClass: UnifiedError,
   message?: string
 ) => {
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   return (...args: TArgs) => {
     try {
       const result = func(...args);
@@ -36,7 +34,7 @@ export const withDefaultError = <TArgs extends Array<any>, TOutput>(
         handleError(error, DefaultErrorClass, message)
       );
     } catch (error) {
-      handleError(error, DefaultErrorClass, message);
+      handleError(error as UnhandledError, DefaultErrorClass, message);
     }
   };
 };
