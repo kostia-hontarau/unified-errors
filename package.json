@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kostia-gontarev/unified-errors.git"
+    "url": "git+https://github.com/kostia-hontarau/unified-errors"
   },
   "author": "Kanstantsin Hontarau <kostia.gontarev@gmail.com>",
   "types": "build/index.d.ts",
