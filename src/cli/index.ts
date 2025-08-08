@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-import { generateErrors } from "../generator/typescript-generator";
+import { generateErrors } from "../core/typescript-generator";
 
 const program = new Command();
 
@@ -21,7 +21,7 @@ program
   .option(
     "-o, --output <path>",
     "Output directory for generated files",
-    "./example"
+    "./errors"
   )
   .action((options: Record<string, string>) => {
     try {

@@ -4,7 +4,7 @@ import {
   ApplicationError,
   ValidationError,
   InvalidEmail,
-} from "../example/errors";
+} from "../errors/errors";
 
 describe("Error Declaration Helpers", () => {
   beforeEach(() => {

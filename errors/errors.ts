@@ -1,6 +1,6 @@
 
 // Auto-generated file - DO NOT EDIT
-// Generated from .errors.js on 2025-08-08T14:29:10.546Z
+// Generated from .errors.js on 2025-08-08T14:36:13.261Z
 
 export class BaseError extends Error {
   errorCode: string;

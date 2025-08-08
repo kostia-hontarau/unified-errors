@@ -103,11 +103,11 @@ export class BaseError extends Error implements UnifiedError {
 export class {{name}} extends {{parentName}} {
   constructor(message: string, meta?: Record<string, unknown>) {
     {{#if (eq parentName "BaseError")}}
-    super('{{code}}', message, meta);
+    super(['{{code}}', meta?._errorCodeOverride].join('.'), message, meta);
     {{else}}
     super(message, {
       ...meta,
-      _errorCodeOverride: [meta?._errorCodeOverride, '{{code}}'].join('.')
+      _errorCodeOverride: ['{{code}}', meta?._errorCodeOverride].join('.')
     });
     {{/if}}
   }
