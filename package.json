@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "A library to handle declarative error handling in Node.js",
   "main": "build/index.js",
-  "git": "https://github.com/kostia-gontarev/unified-errors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kostia-gontarev/unified-errors.git"
+  },
   "author": "Kanstantsin Hontarau <kostia.gontarev@gmail.com>",
   "types": "build/index.d.ts",
   "bin": {
