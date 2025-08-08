@@ -1,12 +1,12 @@
 import { UnhandledError, UnifiedError } from "../core/types";
 
 const handleError = (
-  error: UnhandledError,
+  error: UnhandledError & { message?: string },
   DefaultErrorClass: UnifiedError,
   message?: string
 ): never => {
   if (!(error instanceof DefaultErrorClass)) {
-    throw new DefaultErrorClass(message || "Default error", {
+    throw new DefaultErrorClass(message || error.message || "Default error", {
       innerError: error,
     });
   }
@@ -26,9 +26,10 @@ export const withDefaultError = <TArgs extends Array<unknown>, TOutput>(
   return async (...args: TArgs) => {
     try {
       const result = await func(...args);
-      return result;
+      return [result, undefined];
     } catch (error) {
       handleError(error as UnhandledError, DefaultErrorClass, message);
+      return [undefined, error as UnifiedError];
     }
   };
 };
