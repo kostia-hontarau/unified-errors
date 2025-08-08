@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "A library to handle declarative error handling in Node.js",
   "main": "build/index.js",
+  "git": "https://github.com/kostia-gontarev/unified-errors",
+  "author": "Kanstantsin Hontarau <kostia.gontarev@gmail.com>",
   "types": "build/index.d.ts",
   "bin": {
     "unified-errors": "build/cli/index.js"
@@ -21,7 +23,6 @@
     "typescript",
     "cli"
   ],
-  "author": "Kanstantsin Hontarau <kostia.gontarev@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "commander": "^11.0.0",
