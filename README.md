@@ -24,10 +24,6 @@ module.exports = {
         children: {
           InvalidEmail: {
             code: "invalid_email",
-            converters: [{
-              type: "http",
-              payload: { status: 400, exposeMessage: true }
-            }]
           }
         }
       }
@@ -68,8 +64,6 @@ npx unified-errors generate --config .errors.js --output ./src/errors
 ### Main Exports
 
 - `generateErrors(options)`: Generate error classes from declarations
-- `withDefaultError(func, DefaultErrorClass)`: Wrap functions with default error handling
-- `DefaultHttpResponseConverter`: Convert errors to HTTP responses
 
 ### Generated Files
 
@@ -87,10 +81,6 @@ npx unified-errors generate --config .errors.js --output ./src/errors
     children: {
       // Nested errors
     },
-    converters: [{
-      type: "http",
-      payload: { status: 400, exposeMessage: true }
-    }]
   }
 }
 ```
