@@ -22,13 +22,7 @@ describe("TypeScript Generator", () => {
         code: "validation.error",
         children: {
           InvalidEmail: {
-            code: "invalid_email",
-            converters: [
-              {
-                type: "http",
-                payload: { status: 400, exposeMessage: true },
-              },
-            ],
+            code: "invalid_email"
           },
         },
       },

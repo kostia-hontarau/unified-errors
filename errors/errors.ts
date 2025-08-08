@@ -1,6 +1,6 @@
 
 // Auto-generated file - DO NOT EDIT
-// Generated from .errors.js on 2025-08-08T14:48:55.317Z
+// Generated from .errors.js on 2025-08-08T15:09:57.108Z
 import { UnifiedError } from "./error-types";
 
 export class BaseError extends Error implements UnifiedError {
@@ -47,15 +47,6 @@ export class InvalidEmail extends ValidationError {
     });
   }
   
-  static converters = [
-  {
-    "type": "http",
-    "payload": {
-      "status": 400,
-      "exposeMessage": true
-    }
-  }
-];
 }
 
 export class InvalidPassword extends ValidationError {
@@ -66,15 +57,6 @@ export class InvalidPassword extends ValidationError {
     });
   }
   
-  static converters = [
-  {
-    "type": "http",
-    "payload": {
-      "status": 400,
-      "exposeMessage": false
-    }
-  }
-];
 }
 
 export class InvalidInput extends ValidationError {
@@ -85,15 +67,6 @@ export class InvalidInput extends ValidationError {
     });
   }
   
-  static converters = [
-  {
-    "type": "http",
-    "payload": {
-      "status": 400,
-      "exposeMessage": true
-    }
-  }
-];
 }
 
 export class AuthenticationError extends ApplicationError {
@@ -114,15 +87,6 @@ export class InvalidCredentials extends AuthenticationError {
     });
   }
   
-  static converters = [
-  {
-    "type": "http",
-    "payload": {
-      "status": 401,
-      "exposeMessage": false
-    }
-  }
-];
 }
 
 export class TokenExpired extends AuthenticationError {
@@ -133,15 +97,6 @@ export class TokenExpired extends AuthenticationError {
     });
   }
   
-  static converters = [
-  {
-    "type": "http",
-    "payload": {
-      "status": 401,
-      "exposeMessage": true
-    }
-  }
-];
 }
 
 export class AuthorizationError extends ApplicationError {
@@ -162,15 +117,6 @@ export class InsufficientPermissions extends AuthorizationError {
     });
   }
   
-  static converters = [
-  {
-    "type": "http",
-    "payload": {
-      "status": 403,
-      "exposeMessage": false
-    }
-  }
-];
 }
 
 export class DatabaseError extends BaseError {
@@ -188,15 +134,6 @@ export class ConnectionFailed extends DatabaseError {
     });
   }
   
-  static converters = [
-  {
-    "type": "http",
-    "payload": {
-      "status": 503,
-      "exposeMessage": false
-    }
-  }
-];
 }
 
 export class QueryFailed extends DatabaseError {
@@ -207,15 +144,6 @@ export class QueryFailed extends DatabaseError {
     });
   }
   
-  static converters = [
-  {
-    "type": "http",
-    "payload": {
-      "status": 500,
-      "exposeMessage": false
-    }
-  }
-];
 }
 
 
@@ -245,40 +173,13 @@ export const errorDeclarations = {
         "code": "validation",
         "children": {
           "InvalidEmail": {
-            "code": "invalid_email",
-            "converters": [
-              {
-                "type": "http",
-                "payload": {
-                  "status": 400,
-                  "exposeMessage": true
-                }
-              }
-            ]
+            "code": "invalid_email"
           },
           "InvalidPassword": {
-            "code": "invalid_password",
-            "converters": [
-              {
-                "type": "http",
-                "payload": {
-                  "status": 400,
-                  "exposeMessage": false
-                }
-              }
-            ]
+            "code": "invalid_password"
           },
           "InvalidInput": {
-            "code": "invalid_input",
-            "converters": [
-              {
-                "type": "http",
-                "payload": {
-                  "status": 400,
-                  "exposeMessage": true
-                }
-              }
-            ]
+            "code": "invalid_input"
           }
         }
       },
@@ -286,28 +187,10 @@ export const errorDeclarations = {
         "code": "authentication",
         "children": {
           "InvalidCredentials": {
-            "code": "invalid_credentials",
-            "converters": [
-              {
-                "type": "http",
-                "payload": {
-                  "status": 401,
-                  "exposeMessage": false
-                }
-              }
-            ]
+            "code": "invalid_credentials"
           },
           "TokenExpired": {
-            "code": "token_expired",
-            "converters": [
-              {
-                "type": "http",
-                "payload": {
-                  "status": 401,
-                  "exposeMessage": true
-                }
-              }
-            ]
+            "code": "token_expired"
           }
         }
       },
@@ -315,16 +198,7 @@ export const errorDeclarations = {
         "code": "authorization",
         "children": {
           "InsufficientPermissions": {
-            "code": "insufficient_permissions",
-            "converters": [
-              {
-                "type": "http",
-                "payload": {
-                  "status": 403,
-                  "exposeMessage": false
-                }
-              }
-            ]
+            "code": "insufficient_permissions"
           }
         }
       }
@@ -334,28 +208,10 @@ export const errorDeclarations = {
     "code": "database",
     "children": {
       "ConnectionFailed": {
-        "code": "connection_failed",
-        "converters": [
-          {
-            "type": "http",
-            "payload": {
-              "status": 503,
-              "exposeMessage": false
-            }
-          }
-        ]
+        "code": "connection_failed"
       },
       "QueryFailed": {
-        "code": "query_failed",
-        "converters": [
-          {
-            "type": "http",
-            "payload": {
-              "status": 500,
-              "exposeMessage": false
-            }
-          }
-        ]
+        "code": "query_failed"
       }
     }
   }

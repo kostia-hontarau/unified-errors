@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('../src/cli/index.ts'); 
+require('../build/cli/index.js'); 

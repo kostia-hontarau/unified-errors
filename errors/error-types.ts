@@ -1,6 +1,7 @@
 
 // Auto-generated types - DO NOT EDIT
 
+export type UnhandledError = Error | Record<string, unknown> | string;
 
 export interface UnifiedError {
   message: string;

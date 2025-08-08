@@ -9,25 +9,13 @@ module.exports = {
         code: "validation",
         children: {
           InvalidEmail: {
-            code: "invalid_email",
-            converters: [{
-              type: "http",
-              payload: { status: 400, exposeMessage: true }
-            }]
+            code: "invalid_email"
           },
           InvalidPassword: {
-            code: "invalid_password",
-            converters: [{
-              type: "http",
-              payload: { status: 400, exposeMessage: false }
-            }]
+            code: "invalid_password"
           },
           InvalidInput: {
-            code: "invalid_input",
-            converters: [{
-              type: "http",
-              payload: { status: 400, exposeMessage: true }
-            }]
+            code: "invalid_input"
           }
         }
       },
@@ -35,18 +23,10 @@ module.exports = {
         code: "authentication",
         children: {
           InvalidCredentials: {
-            code: "invalid_credentials",
-            converters: [{
-              type: "http",
-              payload: { status: 401, exposeMessage: false }
-            }]
+            code: "invalid_credentials"
           },
           TokenExpired: {
-            code: "token_expired",
-            converters: [{
-              type: "http",
-              payload: { status: 401, exposeMessage: true }
-            }]
+            code: "token_expired"
           }
         }
       },
@@ -54,11 +34,7 @@ module.exports = {
         code: "authorization",
         children: {
           InsufficientPermissions: {
-            code: "insufficient_permissions",
-            converters: [{
-              type: "http",
-              payload: { status: 403, exposeMessage: false }
-            }]
+            code: "insufficient_permissions"
           }
         }
       }
@@ -68,18 +44,10 @@ module.exports = {
     code: "database",
     children: {
       ConnectionFailed: {
-        code: "connection_failed",
-        converters: [{
-          type: "http",
-          payload: { status: 503, exposeMessage: false }
-        }]
+        code: "connection_failed"
       },
       QueryFailed: {
-        code: "query_failed",
-        converters: [{
-          type: "http",
-          payload: { status: 500, exposeMessage: false }
-        }]
+        code: "query_failed"
       }
     }
   }

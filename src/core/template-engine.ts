@@ -2,7 +2,6 @@ import Handlebars from "handlebars";
 import {
   ErrorDeclaration,
   ErrorsDeclaration,
-  IErrorConverterConfig,
 } from "../core/types";
 
 // Register Handlebars helpers
@@ -22,13 +21,11 @@ function flattenErrorDeclarations(
   name: string;
   parentName?: string;
   code: string;
-  converters?: IErrorConverterConfig[];
 }> {
   const flattened: Array<{
     name: string;
     parentName?: string;
     code: string;
-    converters?: IErrorConverterConfig[];
   }> = [];
 
   function processDeclarations(decls: ErrorsDeclaration, parent?: string) {
@@ -39,7 +36,6 @@ function flattenErrorDeclarations(
           name,
           parentName: parent || "BaseError",
           code: declaration.code,
-          converters: declaration.converters,
         });
 
         // Recursively process children
@@ -112,9 +108,6 @@ export class {{name}} extends {{parentName}} {
     {{/if}}
   }
   
-  {{#if converters}}
-  static converters = {{{json converters}}};
-  {{/if}}
 }
 
 {{/each}}
@@ -133,6 +126,7 @@ export const errorDeclarations = {{{json declarations}}};
   "error-types": `
 // Auto-generated types - DO NOT EDIT
 
+export type UnhandledError = Error | Record<string, unknown> | string;
 
 export interface UnifiedError {
   message: string;

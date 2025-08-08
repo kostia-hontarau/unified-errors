@@ -1,7 +1,7 @@
 {
   "name": "unified-errors",
-  "version": "0.0.1",
-  "description": "A library to handle declarative error handling in Node Js",
+  "version": "1.0.0",
+  "description": "A library to handle declarative error handling in Node.js",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "bin": {
@@ -16,7 +16,7 @@
     "prepare": "husky"
   },
   "keywords": [
-    "Node.js",
+    "nodejs",
     "error-handling",
     "typescript",
     "cli"

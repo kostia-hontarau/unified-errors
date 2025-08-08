@@ -1,4 +1,4 @@
-import { ErrorDeclaration, ErrorFilter, ErrorsDeclaration } from "./types.js";
+import { ErrorDeclaration, ErrorsDeclaration } from "./types.js";
 
 type MatchResult = {
   errorName: string;
@@ -7,8 +7,7 @@ type MatchResult = {
 
 const matchErrorDeclaration = (
   errorClassName: string,
-  errorDeclaration: ErrorDeclaration,
-  filter: ErrorFilter
+  filter: { errorName?: string }
 ): boolean => {
   let isMatch = true;
 
@@ -16,26 +15,18 @@ const matchErrorDeclaration = (
     isMatch = filter.errorName === errorClassName;
   }
 
-  if (filter.isDefault) {
-    isMatch = Boolean(errorDeclaration.isDefault);
-  }
-
   return isMatch;
 };
 
 const plainMatchErrorDeclaration = (
   errorsDeclarations: ErrorsDeclaration,
-  filter: ErrorFilter
+  filter: { errorName?: string }
 ): MatchResult | null => {
   const errorClassNames = Object.keys(errorsDeclarations);
   for (let i = 0; i < errorClassNames.length; i += 1) {
     const errorName = errorClassNames[i];
     const errorDeclaration = errorsDeclarations[errorName];
-    const isMatching = matchErrorDeclaration(
-      errorName,
-      errorDeclaration,
-      filter
-    );
+    const isMatching = matchErrorDeclaration(errorName, filter);
 
     if (isMatching) {
       return { errorName, errorDeclaration };
@@ -47,7 +38,7 @@ const plainMatchErrorDeclaration = (
 
 const match = (
   errorsDeclarations: ErrorsDeclaration,
-  filter: ErrorFilter
+  filter: { errorName?: string }
 ): MatchResult | null => {
   if (!Object.keys(errorsDeclarations).length) {
     return null;
