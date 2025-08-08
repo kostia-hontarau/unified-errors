@@ -1,6 +1,5 @@
 const mockErrorCore = { errors: {}, errorDeclarations: {} };
 import * as errorDeclarationHelpers from "./core/error-declaration-helpers";
-jest.mock("./core/index", () => mockErrorCore);
 
 describe("Error Declaration Helpers", () => {
   beforeEach(() => {
