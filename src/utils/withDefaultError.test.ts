@@ -12,7 +12,7 @@ describe("With Default Error decorator", () => {
     it("should run original function and return its result (sync)", () => {
       const expectedResult = 2;
       const result = withDefaultError(
-        (argument: any) => argument,
+        (argument: unknown) => argument,
         SomeError
       )(expectedResult);
 
@@ -22,7 +22,7 @@ describe("With Default Error decorator", () => {
     it("should run original function and return its result (async)", async () => {
       const expectedResult = 2;
       const result = await withDefaultError(
-        async (argument: any) => argument,
+        (argument: unknown) => Promise.resolve(argument),
         SomeError
       )(expectedResult);
 
@@ -44,9 +44,10 @@ describe("With Default Error decorator", () => {
     it("should wrap error thrown in the original function (async)", async () => {
       const message = "Some message";
       try {
-        await withDefaultError(async () => {
-          throw new Error(message);
+        const func = withDefaultError(() => {
+          return Promise.reject(new Error(message));
         }, SomeError);
+        await func();
       } catch (error) {
         expect(error).toBeInstanceOf(BaseError);
         expect(error).toHaveProperty("message", message);

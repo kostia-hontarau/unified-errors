@@ -7,48 +7,6 @@ describe("Error Declaration Helpers", () => {
     jest.resetModules();
   });
 
-  describe("#getDefaultError", () => {
-    it("should return default error", () => {
-      mockErrorCore.errorDeclarations = {
-        MyError: {
-          code: "error.myerror",
-          children: {
-            Unexpected: {
-              code: "unexpected",
-              isDefault: true,
-            },
-          },
-        },
-      };
-      mockErrorCore.errors = {
-        Unexpected: Error,
-      };
-
-      const result = errorDeclarationHelpers.getDefaultError();
-
-      expect(result?.DefaultError).toBe(Error);
-      expect(result?.errorDeclaration).toEqual({
-        code: "unexpected",
-        isDefault: true,
-      });
-    });
-
-    it("should return null if no default error", () => {
-      mockErrorCore.errorDeclarations = {
-        MyError: {
-          code: "error.myerror",
-        },
-      };
-      mockErrorCore.errors = {
-        MyError: Error,
-      };
-
-      const defaultErrorResult = errorDeclarationHelpers.getDefaultError();
-
-      expect(defaultErrorResult).toBe(null);
-    });
-  });
-
   describe("#getErrorDeclarationByName", () => {
     it("should return error declaration by name (1st-level)", () => {
       mockErrorCore.errorDeclarations = {
@@ -60,9 +18,11 @@ describe("Error Declaration Helpers", () => {
         Unexpected: Error,
       };
 
-      const errorDeclaration = errorDeclarationHelpers.getErrorDeclarationByName(
-        "Unexpected"
-      );
+      const errorDeclaration =
+        errorDeclarationHelpers.getErrorDeclarationByName(
+          "Unexpected",
+          mockErrorCore.errorDeclarations
+        );
 
       expect(errorDeclaration).toEqual({
         code: "unexpected",
@@ -89,9 +49,11 @@ describe("Error Declaration Helpers", () => {
         Unexpected: Error,
       };
 
-      const errorDeclaration = errorDeclarationHelpers.getErrorDeclarationByName(
-        "Unexpected"
-      );
+      const errorDeclaration =
+        errorDeclarationHelpers.getErrorDeclarationByName(
+          "Unexpected",
+          mockErrorCore.errorDeclarations
+        );
 
       expect(errorDeclaration).toEqual({ code: "unexpected" });
     });
@@ -111,11 +73,25 @@ describe("Error Declaration Helpers", () => {
         MyError: Error,
       };
 
-      const errorDeclaration = errorDeclarationHelpers.getErrorDeclarationByName(
-        "anyOtherError"
-      );
+      const errorDeclaration =
+        errorDeclarationHelpers.getErrorDeclarationByName(
+          "anyOtherError",
+          mockErrorCore.errorDeclarations
+        );
 
       expect(errorDeclaration).toBe(null);
     });
   });
+
+  // describe("error codes", () => {
+  //   it("should allow hierarchy of error codes", () => {
+  //     const error = new InvalidEmail("Invalid email");
+  //     const validationError = new ValidationError("Invalid email");
+  //     const applicationError = new ApplicationError("Invalid email");
+
+  //     expect(error.errorCode).toBe("application.validation.invalid_email");
+  //     expect(validationError.errorCode).toBe("application.validation");
+  //     expect(applicationError.errorCode).toBe("application");
+  //   });
+  // });
 });

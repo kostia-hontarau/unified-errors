@@ -1,28 +1,32 @@
-import { BaseError } from "./base-error";
+// This file is now used by the build-time generator
+// It provides templates for generating TypeScript error classes
 
-export default ({
+import { IErrorConverterConfig } from "./types";
+
+export const generateErrorClass = ({
   className,
   parentClassName,
   errorCode,
+  converters,
 }: {
   className: string;
   parentClassName: string;
   errorCode: string;
+  converters?: IErrorConverterConfig[];
 }): string => {
-  if (parentClassName !== BaseError.name) {
-    return `(class ${className} extends ${parentClassName} {
-      constructor(message, meta) {
-        super(message, {
-          ...meta,
-          _errorCode: (meta && meta._errorCode) || '${errorCode}'
-        });
-      }
-    })`;
-  }
+  const convertersCode = converters 
+    ? `\n  static converters = ${JSON.stringify(converters, null, 2)};`
+    : '';
 
-  return `(class ${className} extends ${parentClassName} {
-    constructor(message, meta) {
-      super((meta && meta._errorCode) || '${errorCode}', message, meta);
-    }
-  })`;
+  return `export class ${className} extends ${parentClassName} {
+  constructor(message: string, meta?: Record<string, unknown>) {
+    super('${errorCode}', message, meta);
+  }${convertersCode}
+}`;
+};
+
+export const generateErrorsExport = (errorNames: string[]): string => {
+  return `export const errors = {
+${errorNames.map(name => `  ${name},`).join('\n')}
+};`;
 };

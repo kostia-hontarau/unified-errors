@@ -8,48 +8,6 @@ describe("Error Declaration Helpers", () => {
     jest.resetModules();
   });
 
-  describe("#getDefaultError", () => {
-    it("should return default error", () => {
-      mockErrorCore.errorDeclarations = {
-        MyError: {
-          code: "error.myerror",
-          children: {
-            Unexpected: {
-              code: "unexpected",
-              isDefault: true,
-            },
-          },
-        },
-      };
-      mockErrorCore.errors = {
-        Unexpected: Error,
-      };
-
-      const result = errorDeclarationHelpers.getDefaultError();
-
-      expect(result?.DefaultError).toBe(Error);
-      expect(result?.errorDeclaration).toEqual({
-        code: "unexpected",
-        isDefault: true,
-      });
-    });
-
-    it("should return null if no default error", () => {
-      mockErrorCore.errorDeclarations = {
-        MyError: {
-          code: "error.myerror",
-        },
-      };
-      mockErrorCore.errors = {
-        MyError: Error,
-      };
-
-      const defaultErrorResult = errorDeclarationHelpers.getDefaultError();
-
-      expect(defaultErrorResult).toBe(null);
-    });
-  });
-
   describe("#getErrorDeclarationByName", () => {
     it("should return error declaration by name (1st-level)", () => {
       mockErrorCore.errorDeclarations = {
@@ -62,7 +20,8 @@ describe("Error Declaration Helpers", () => {
       };
 
       const errorDeclaration = errorDeclarationHelpers.getErrorDeclarationByName(
-        "Unexpected"
+        "Unexpected",
+        mockErrorCore.errorDeclarations
       );
 
       expect(errorDeclaration).toEqual({
@@ -91,7 +50,8 @@ describe("Error Declaration Helpers", () => {
       };
 
       const errorDeclaration = errorDeclarationHelpers.getErrorDeclarationByName(
-        "Unexpected"
+        "Unexpected",
+        mockErrorCore.errorDeclarations
       );
 
       expect(errorDeclaration).toEqual({ code: "unexpected" });
@@ -113,7 +73,8 @@ describe("Error Declaration Helpers", () => {
       };
 
       const errorDeclaration = errorDeclarationHelpers.getErrorDeclarationByName(
-        "anyOtherError"
+        "anyOtherError",
+        mockErrorCore.errorDeclarations
       );
 
       expect(errorDeclaration).toBe(null);

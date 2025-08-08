@@ -1,10 +1,4 @@
-import core from "./index";
-import {
-  ErrorDeclaration,
-  ErrorFilter,
-  ErrorsDeclaration,
-  UnifiedError,
-} from "./types.js";
+import { ErrorDeclaration, ErrorFilter, ErrorsDeclaration } from "./types.js";
 
 type MatchResult = {
   errorName: string;
@@ -78,28 +72,11 @@ const match = (
   return null;
 };
 
-export const getDefaultError = (): {
-  DefaultError: UnifiedError;
-  errorDeclaration: ErrorDeclaration;
-} | null => {
-  const matchResult = match(core.errorDeclarations, {
-    isDefault: true,
-  });
-
-  if (!matchResult) {
-    return null;
-  }
-
-  return {
-    DefaultError: core.errors[matchResult.errorName],
-    errorDeclaration: matchResult.errorDeclaration,
-  };
-};
-
 export const getErrorDeclarationByName = (
-  errorClassName: string
+  errorClassName: string,
+  errorDeclarations: ErrorsDeclaration
 ): ErrorDeclaration | null => {
-  const matchResult = match(core.errorDeclarations, {
+  const matchResult = match(errorDeclarations, {
     errorName: errorClassName,
   });
 

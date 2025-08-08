@@ -17,7 +17,7 @@ export type IDefaultHttpConverterResult = {
   };
 };
 
-/* eslint-disable no-unused-vars */
+ 
 export class DefaultHttpResponseConverter
   implements ErrorConverter<IDefaultHttpConverterResult> {
   defaultHttpErrorMessage: string;

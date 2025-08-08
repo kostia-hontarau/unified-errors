@@ -4,25 +4,33 @@
   "description": "A library to handle declarative error handling in Node Js",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "bin": {
+    "unified-errors": "build/cli/index.js"
+  },
   "scripts": {
     "test": "jest --passWithNoTests",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "build": "tsc",
+    "generate": "node build/cli/index.js generate",
     "prepare": "husky"
   },
   "keywords": [
-    "Node.js"
+    "Node.js",
+    "error-handling",
+    "typescript",
+    "cli"
   ],
   "author": "Kanstantsin Hontarau <kostia.gontarev@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "safer-eval": "^1.3"
+    "commander": "^11.0.0",
+    "handlebars": "^4.7.8"
   },
   "devDependencies": {
     "@types/jest": "^29",
-    "@typescript-eslint/eslint-plugin": "^8",
-    "@typescript-eslint/parser": "^8",
+    "@types/node": "^20.0.0",
+    "typescript-eslint": "^8",
     "eslint": "^9",
     "eslint-config-prettier": "^10",
     "eslint-plugin-prettier": "^5",

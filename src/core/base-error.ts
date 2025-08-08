@@ -11,6 +11,8 @@ export class BaseError extends Error {
 
     this.errorCode = errorCode;
     this.name = this.constructor.name;
+
+    delete meta?._errorCodeOverride;
     this.meta = meta;
   }
 }
